@@ -21,29 +21,21 @@
 
 node {
     def dockerImage = 'node:16-buster-slim'
-
+    
     stage('Checkout') {
         checkout scm
     }
 
     stage('Build') {
-        agent {
-            docker {
-                image dockerImage
-                args '-p 3000:3000'
-            }
-        }
-        steps {
+        docker.image(dockerImage).inside("-p 3000:3000") {
             sh 'npm install'
         }
     }
 
     stage('Test') {
-        agent any
-        steps {
-            script {
-                sh './jenkins/scripts/test.sh'
-            }
+        docker.image(dockerImage).inside {
+            sh './jenkins/scripts/test.sh'
         }
     }
 }
+
