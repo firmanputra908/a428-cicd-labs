@@ -1,31 +1,49 @@
-pipeline {
-    agent {
-        docker {
-            image 'node:16-buster-slim' 
-            args '-p 3000:3000' 
-        }
+// pipeline {
+//     agent {
+//         docker {
+//             image 'node:16-buster-slim' 
+//             args '-p 3000:3000' 
+//         }
+//     }
+//     stages {
+//         stage('Build') { 
+//             steps {
+//                 sh 'npm install'
+//             }
+//         }
+//         stage('Test') {
+//             steps {
+//                 sh './jenkins/scripts/test.sh'
+//             }
+//         }
+//     }
+// }
+
+node {
+    def dockerImage = 'node:16-buster-slim'
+
+    stage('Checkout') {
+        checkout scm
     }
-    stages {
-        stage('Build') { 
-            steps {
-                sh 'npm install'
+
+    stage('Build') {
+        agent {
+            docker {
+                image dockerImage
+                args '-p 3000:3000'
             }
         }
-        stage('Test') {
-            steps {
+        steps {
+            sh 'npm install'
+        }
+    }
+
+    stage('Test') {
+        agent any
+        steps {
+            script {
                 sh './jenkins/scripts/test.sh'
             }
         }
     }
 }
-
-// node {
-//     docker.image('node:16-buster-slim').inside('-p 3000:3000') {
-//         stage('Build') {
-//                 sh 'npm install'
-//             }
-//         stage('Test') { 
-//                 sh './jenkins/scripts/test.sh' 
-//         }
-//     }
-// }
