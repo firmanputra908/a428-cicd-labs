@@ -45,7 +45,7 @@ node {
     stage('Deploy!'){
         docker.image(dockerImage).inside(dockerPort) {
             sh './jenkins/scripts/deliver.sh'
-            input message: 'Aplikasi berhasil di deploy, dan akan berjalan selama 1 menit,setelah itu akan mati)'
+            // sinput message: 'Aplikasi berhasil di deploy, dan akan berjalan selama 1 menit,setelah itu akan mati)'
             sleep time : 60, unit: 'SECONDS'
             sh './jenkins/scripts/kill.sh'
         }
