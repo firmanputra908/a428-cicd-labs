@@ -46,8 +46,9 @@ node {
         docker.image(dockerImage).inside(dockerPort) {
             sh './jenkins/scripts/deliver.sh'
             // input message: 'Aplikasi berhasil di deploy, dan akan berjalan selama 1 menit,setelah itu akan mati)'
-            echo 'this app running for 1 minute, after that this app will automatically shutdown'
-            sleep time : 60, unit: 'SECONDS'
+            sleep (time : 60, unit: 'SECONDS'){
+                echo 'this app running for 1 minute, after that this app will automatically shutdown'
+            }
             sh './jenkins/scripts/kill.sh'
         }
     }
