@@ -30,7 +30,7 @@ node {
     def dockerImage = 'node:16-buster-slim'
 
     stage('Build') {
-        docker.image(dockerImage).inside("-p 3100:3100") {
+        docker.image(dockerImage).inside("-p 3000:3000") {
             sh 'npm install'
         }
     }
