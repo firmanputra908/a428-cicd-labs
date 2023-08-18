@@ -42,6 +42,10 @@ node {
         }
     }
 
+    stage('Manual Approval'){
+        input message : 'Lanjutkan ke tahap Deploy?'
+    }
+
     stage('Deploy!'){
         docker.image(dockerImage).inside(dockerPort) {
             sh './jenkins/scripts/deliver.sh'
