@@ -46,7 +46,7 @@ node {
         input message : 'Lanjutkan ke tahap Deploy?'
     }
 
-    stage('Deploy!'){
+    stage('Deploy'){
         docker.image(dockerImage).inside(dockerPort) {
             sh './jenkins/scripts/deliver.sh'
             echo 'Aplikasi berhasil di deploy, dan akan berjalan selama 1 menit,setelah itu akan mati'
